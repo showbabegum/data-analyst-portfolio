@@ -1,0 +1,579 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SQL Analysis Project | Showba Begum</title>
+<style>
+body{font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;max-width:960px;margin:0 auto;padding:24px;color:#1f2937;line-height:1.6}
+h1{margin-bottom:0} .sub{color:#6b7280;margin:4px 0 20px}
+.q{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px;margin-bottom:16px}
+.q h3{margin:0 0 8px} pre{background:#1f2937;color:#e5e7eb;padding:12px;border-radius:8px;overflow-x:auto;font-size:.85em}
+table.res{border-collapse:collapse;width:100%;font-size:.85em;margin-top:8px}
+table.res th,table.res td{border:1px solid #e5e7eb;padding:6px 10px;text-align:left}
+table.res th{background:#f3f4f6} table.res tr:nth-child(even){background:#fafafa}
+.rows{color:#6b7280;font-size:.8em} .footer{margin-top:28px;color:#6b7280;font-size:.85em;border-top:1px solid #e5e7eb;padding-top:12px}
+</style></head><body>
+<h1>SQL Analysis Project</h1>
+<div class="sub">Showba Begum &middot; SQLite &middot; 12 queries across <b>orders</b> (6,194 rows) and <b>customers</b> (2,500 rows) &middot; covers aggregations, GROUP BY, CTEs, subqueries, window functions, CASE</div>
+<div class="q"><h3>Total revenue, profit &amp; order count</h3><pre>SELECT COUNT(*) AS orders, ROUND(SUM(revenue),2) AS revenue, ROUND(SUM(profit),2) AS profit FROM orders;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>orders</th>
+      <th>revenue</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6194</td>
+      <td>5639305.49</td>
+      <td>1951706.76</td>
+    </tr>
+  </tbody>
+</table><p class="rows">1 row(s)</p></div><div class="q"><h3>Monthly revenue trend</h3><pre>SELECT substr(date,1,7) AS month, ROUND(SUM(revenue),2) AS revenue, COUNT(*) AS orders FROM orders GROUP BY month ORDER BY month;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>month</th>
+      <th>revenue</th>
+      <th>orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2024-01</td>
+      <td>204970.75</td>
+      <td>213</td>
+    </tr>
+    <tr>
+      <td>2024-02</td>
+      <td>236080.06</td>
+      <td>224</td>
+    </tr>
+    <tr>
+      <td>2024-03</td>
+      <td>193351.82</td>
+      <td>216</td>
+    </tr>
+    <tr>
+      <td>2024-04</td>
+      <td>190896.47</td>
+      <td>207</td>
+    </tr>
+    <tr>
+      <td>2024-05</td>
+      <td>240378.60</td>
+      <td>253</td>
+    </tr>
+    <tr>
+      <td>2024-06</td>
+      <td>217000.08</td>
+      <td>277</td>
+    </tr>
+    <tr>
+      <td>2024-07</td>
+      <td>272102.85</td>
+      <td>291</td>
+    </tr>
+    <tr>
+      <td>2024-08</td>
+      <td>215673.71</td>
+      <td>224</td>
+    </tr>
+    <tr>
+      <td>2024-09</td>
+      <td>218196.70</td>
+      <td>222</td>
+    </tr>
+    <tr>
+      <td>2024-10</td>
+      <td>216464.60</td>
+      <td>221</td>
+    </tr>
+    <tr>
+      <td>2024-11</td>
+      <td>377777.19</td>
+      <td>399</td>
+    </tr>
+    <tr>
+      <td>2024-12</td>
+      <td>323446.68</td>
+      <td>361</td>
+    </tr>
+    <tr>
+      <td>2025-01</td>
+      <td>156277.24</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <td>2025-02</td>
+      <td>169497.42</td>
+      <td>205</td>
+    </tr>
+    <tr>
+      <td>2025-03</td>
+      <td>191197.67</td>
+      <td>219</td>
+    </tr>
+    <tr>
+      <td>2025-04</td>
+      <td>192508.74</td>
+      <td>236</td>
+    </tr>
+    <tr>
+      <td>2025-05</td>
+      <td>214200.32</td>
+      <td>240</td>
+    </tr>
+    <tr>
+      <td>2025-06</td>
+      <td>234961.35</td>
+      <td>276</td>
+    </tr>
+    <tr>
+      <td>2025-07</td>
+      <td>249592.97</td>
+      <td>266</td>
+    </tr>
+    <tr>
+      <td>2025-08</td>
+      <td>216317.96</td>
+      <td>233</td>
+    </tr>
+    <tr>
+      <td>2025-09</td>
+      <td>228502.29</td>
+      <td>235</td>
+    </tr>
+    <tr>
+      <td>2025-10</td>
+      <td>230496.56</td>
+      <td>233</td>
+    </tr>
+    <tr>
+      <td>2025-11</td>
+      <td>332153.88</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <td>2025-12</td>
+      <td>317259.58</td>
+      <td>375</td>
+    </tr>
+  </tbody>
+</table><p class="rows">24 row(s)</p></div><div class="q"><h3>Revenue &amp; margin by region</h3><pre>SELECT region, COUNT(*) AS orders, ROUND(SUM(revenue),2) AS revenue, ROUND(100.0*SUM(profit)/SUM(revenue),1) AS margin_pct FROM orders GROUP BY region ORDER BY revenue DESC;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>orders</th>
+      <th>revenue</th>
+      <th>margin_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Northeast</td>
+      <td>1849</td>
+      <td>1706750.58</td>
+      <td>34.7</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>1746</td>
+      <td>1590738.63</td>
+      <td>34.5</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>1254</td>
+      <td>1171203.53</td>
+      <td>34.6</td>
+    </tr>
+    <tr>
+      <td>Midwest</td>
+      <td>1345</td>
+      <td>1170612.75</td>
+      <td>34.7</td>
+    </tr>
+  </tbody>
+</table><p class="rows">4 row(s)</p></div><div class="q"><h3>Top 5 product categories by revenue</h3><pre>SELECT category, ROUND(SUM(revenue),2) AS revenue, SUM(units) AS units_sold FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 5;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>revenue</th>
+      <th>units_sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>2787396.66</td>
+      <td>5070</td>
+    </tr>
+    <tr>
+      <td>Electronics</td>
+      <td>1991678.66</td>
+      <td>4974</td>
+    </tr>
+    <tr>
+      <td>Home &amp; Garden</td>
+      <td>448512.10</td>
+      <td>4970</td>
+    </tr>
+    <tr>
+      <td>Clothing</td>
+      <td>283371.65</td>
+      <td>4733</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>128346.42</td>
+      <td>5122</td>
+    </tr>
+  </tbody>
+</table><p class="rows">5 row(s)</p></div><div class="q"><h3>Top 5 sales reps by revenue</h3><pre>SELECT rep, COUNT(*) AS orders, ROUND(SUM(revenue),2) AS revenue, ROUND(AVG(revenue),2) AS avg_order FROM orders GROUP BY rep ORDER BY revenue DESC LIMIT 5;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rep</th>
+      <th>orders</th>
+      <th>revenue</th>
+      <th>avg_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R. Hassan</td>
+      <td>801</td>
+      <td>764737.59</td>
+      <td>954.73</td>
+    </tr>
+    <tr>
+      <td>T. Nguyen</td>
+      <td>772</td>
+      <td>740745.57</td>
+      <td>959.51</td>
+    </tr>
+    <tr>
+      <td>M. Okafor</td>
+      <td>779</td>
+      <td>709451.48</td>
+      <td>910.72</td>
+    </tr>
+    <tr>
+      <td>L. Garcia</td>
+      <td>770</td>
+      <td>696964.34</td>
+      <td>905.15</td>
+    </tr>
+    <tr>
+      <td>A. Rivera</td>
+      <td>757</td>
+      <td>691211.80</td>
+      <td>913.09</td>
+    </tr>
+  </tbody>
+</table><p class="rows">5 row(s)</p></div><div class="q"><h3>Average order value by quarter (CTE)</h3><pre>WITH q AS (SELECT CASE WHEN cast(substr(date,6,2) AS INT) BETWEEN 1 AND 3 THEN &#x27;Q1&#x27; WHEN cast(substr(date,6,2) AS INT) BETWEEN 4 AND 6 THEN &#x27;Q2&#x27; WHEN cast(substr(date,6,2) AS INT) BETWEEN 7 AND 9 THEN &#x27;Q3&#x27; ELSE &#x27;Q4&#x27; END AS quarter, revenue FROM orders) SELECT quarter, COUNT(*) AS orders, ROUND(AVG(revenue),2) AS avg_order_value FROM q GROUP BY quarter ORDER BY quarter;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>quarter</th>
+      <th>orders</th>
+      <th>avg_order_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Q1</td>
+      <td>1269</td>
+      <td>907.31</td>
+    </tr>
+    <tr>
+      <td>Q2</td>
+      <td>1489</td>
+      <td>866.32</td>
+    </tr>
+    <tr>
+      <td>Q3</td>
+      <td>1471</td>
+      <td>952.00</td>
+    </tr>
+    <tr>
+      <td>Q4</td>
+      <td>1965</td>
+      <td>914.81</td>
+    </tr>
+  </tbody>
+</table><p class="rows">4 row(s)</p></div><div class="q"><h3>Running monthly revenue total (window function)</h3><pre>WITH m AS (SELECT substr(date,1,7) AS month, SUM(revenue) AS revenue FROM orders GROUP BY month) SELECT month, ROUND(revenue,2) AS revenue, ROUND(SUM(revenue) OVER (ORDER BY month),2) AS running_total FROM m ORDER BY month LIMIT 12;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>month</th>
+      <th>revenue</th>
+      <th>running_total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2024-01</td>
+      <td>204970.75</td>
+      <td>204970.75</td>
+    </tr>
+    <tr>
+      <td>2024-02</td>
+      <td>236080.06</td>
+      <td>441050.81</td>
+    </tr>
+    <tr>
+      <td>2024-03</td>
+      <td>193351.82</td>
+      <td>634402.63</td>
+    </tr>
+    <tr>
+      <td>2024-04</td>
+      <td>190896.47</td>
+      <td>825299.10</td>
+    </tr>
+    <tr>
+      <td>2024-05</td>
+      <td>240378.60</td>
+      <td>1065677.70</td>
+    </tr>
+    <tr>
+      <td>2024-06</td>
+      <td>217000.08</td>
+      <td>1282677.78</td>
+    </tr>
+    <tr>
+      <td>2024-07</td>
+      <td>272102.85</td>
+      <td>1554780.63</td>
+    </tr>
+    <tr>
+      <td>2024-08</td>
+      <td>215673.71</td>
+      <td>1770454.34</td>
+    </tr>
+    <tr>
+      <td>2024-09</td>
+      <td>218196.70</td>
+      <td>1988651.04</td>
+    </tr>
+    <tr>
+      <td>2024-10</td>
+      <td>216464.60</td>
+      <td>2205115.64</td>
+    </tr>
+    <tr>
+      <td>2024-11</td>
+      <td>377777.19</td>
+      <td>2582892.83</td>
+    </tr>
+    <tr>
+      <td>2024-12</td>
+      <td>323446.68</td>
+      <td>2906339.51</td>
+    </tr>
+  </tbody>
+</table><p class="rows">12 row(s)</p></div><div class="q"><h3>Regions above average order value (subquery)</h3><pre>SELECT region, ROUND(AVG(revenue),2) AS avg_order FROM orders GROUP BY region HAVING AVG(revenue) &gt; (SELECT AVG(revenue) FROM orders);</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>region</th>
+      <th>avg_order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Northeast</td>
+      <td>923.07</td>
+    </tr>
+    <tr>
+      <td>South</td>
+      <td>911.08</td>
+    </tr>
+    <tr>
+      <td>West</td>
+      <td>933.97</td>
+    </tr>
+  </tbody>
+</table><p class="rows">3 row(s)</p></div><div class="q"><h3>Churn rate by contract type (JOIN-free, second table)</h3><pre>SELECT contract, COUNT(*) AS customers, SUM(churn) AS churned, ROUND(100.0*SUM(churn)/COUNT(*),1) AS churn_pct FROM customers GROUP BY contract ORDER BY churn_pct DESC;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>contract</th>
+      <th>customers</th>
+      <th>churned</th>
+      <th>churn_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Month-to-month</td>
+      <td>1132</td>
+      <td>462</td>
+      <td>40.8</td>
+    </tr>
+    <tr>
+      <td>One year</td>
+      <td>722</td>
+      <td>139</td>
+      <td>19.3</td>
+    </tr>
+    <tr>
+      <td>Two year</td>
+      <td>646</td>
+      <td>96</td>
+      <td>14.9</td>
+    </tr>
+  </tbody>
+</table><p class="rows">3 row(s)</p></div><div class="q"><h3>High-value customers at risk: month-to-month, tenure &lt; 6 months</h3><pre>SELECT customer_id, tenure_months, monthly_charges, contract FROM customers WHERE churn = 0 AND contract = &#x27;Month-to-month&#x27; AND tenure_months &lt; 6 ORDER BY monthly_charges DESC LIMIT 10;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>customer_id</th>
+      <th>tenure_months</th>
+      <th>monthly_charges</th>
+      <th>contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C-11892</td>
+      <td>2</td>
+      <td>125.23</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10412</td>
+      <td>2</td>
+      <td>118.61</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10879</td>
+      <td>1</td>
+      <td>116.59</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10340</td>
+      <td>2</td>
+      <td>107.59</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10932</td>
+      <td>1</td>
+      <td>106.12</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10074</td>
+      <td>5</td>
+      <td>92.92</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-11157</td>
+      <td>5</td>
+      <td>87.78</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-11646</td>
+      <td>1</td>
+      <td>85.29</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10037</td>
+      <td>5</td>
+      <td>85.24</td>
+      <td>Month-to-month</td>
+    </tr>
+    <tr>
+      <td>C-10100</td>
+      <td>5</td>
+      <td>83.98</td>
+      <td>Month-to-month</td>
+    </tr>
+  </tbody>
+</table><p class="rows">10 row(s)</p></div><div class="q"><h3>Rep ranking with RANK() window function</h3><pre>SELECT rep, ROUND(SUM(revenue),2) AS revenue, RANK() OVER (ORDER BY SUM(revenue) DESC) AS revenue_rank FROM orders GROUP BY rep ORDER BY revenue_rank;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>rep</th>
+      <th>revenue</th>
+      <th>revenue_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R. Hassan</td>
+      <td>764737.59</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>T. Nguyen</td>
+      <td>740745.57</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>M. Okafor</td>
+      <td>709451.48</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>L. Garcia</td>
+      <td>696964.34</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>A. Rivera</td>
+      <td>691211.80</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>D. Kim</td>
+      <td>690159.98</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>J. Chen</td>
+      <td>684928.77</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>S. Patel</td>
+      <td>661105.96</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table><p class="rows">8 row(s)</p></div><div class="q"><h3>Profitable vs unprofitable categories</h3><pre>SELECT category, ROUND(SUM(profit),2) AS profit, CASE WHEN SUM(profit) &gt; 200000 THEN &#x27;High profit&#x27; WHEN SUM(profit) &gt; 100000 THEN &#x27;Medium profit&#x27; ELSE &#x27;Low profit&#x27; END AS tier FROM orders GROUP BY category ORDER BY profit DESC;</pre><table class="dataframe res">
+  <thead>
+    <tr style="text-align: right;">
+      <th>category</th>
+      <th>profit</th>
+      <th>tier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Furniture</td>
+      <td>974854.03</td>
+      <td>High profit</td>
+    </tr>
+    <tr>
+      <td>Electronics</td>
+      <td>598164.23</td>
+      <td>High profit</td>
+    </tr>
+    <tr>
+      <td>Home &amp; Garden</td>
+      <td>178897.60</td>
+      <td>Medium profit</td>
+    </tr>
+    <tr>
+      <td>Clothing</td>
+      <td>142114.09</td>
+      <td>Medium profit</td>
+    </tr>
+    <tr>
+      <td>Office Supplies</td>
+      <td>57676.81</td>
+      <td>Low profit</td>
+    </tr>
+  </tbody>
+</table><p class="rows">5 row(s)</p></div>
+<div class="footer">Database file: <b>data/portfolio.db</b> &middot; all queries in <b>sql_analysis.sql</b> &middot; Showba Begum &middot; 2026</div>
+</body></html>
